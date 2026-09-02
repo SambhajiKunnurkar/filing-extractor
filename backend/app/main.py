@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import os
+from app.extractor import extract_pdf
 
 app = FastAPI(
     title="PDF Heading Extractor API",
@@ -35,7 +36,6 @@ async def upload_pdf(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    return {
-        "filename": file.filename,
-        "message": "Upload Successful"
-    }
+    data = extract_pdf(file_path)
+
+    return data

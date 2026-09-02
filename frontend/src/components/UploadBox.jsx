@@ -23,7 +23,8 @@ export default function UploadBox() {
                 formData
             );
 
-            alert(response.data.message);
+            // alert(response.data.message);
+            console.log(response.data);
 
         } catch (error) {
 
