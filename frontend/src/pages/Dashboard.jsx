@@ -1,3 +1,5 @@
+import UploadBox from "../components/UploadBox";
+
 export default function Dashboard() {
 
     return (
@@ -26,7 +28,7 @@ export default function Dashboard() {
 
                     <div className="border-2 border-dashed rounded-xl h-64 mt-6 flex items-center justify-center">
 
-                        Upload Component Here
+                        <UploadBox />
 
                     </div>
 
