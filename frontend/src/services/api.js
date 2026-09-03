@@ -1,10 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://127.0.0.1:8000/api",
-    headers: {
-        "Content-Type": "multipart/form-data",
-    },
+    baseURL: import.meta.env.VITE_API_URL,
 });
 
 export const extractPDF = async (file) => {
