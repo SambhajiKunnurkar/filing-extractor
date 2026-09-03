@@ -11,3 +11,7 @@ dist/
 
 # OS
 .DS_Store
+
+backend/venv/
+frontend/node_modules/
+backend/uploads/

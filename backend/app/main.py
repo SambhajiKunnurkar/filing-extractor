@@ -1,41 +1,34 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import shutil
-import os
-from app.extractor import extract_pdf
+
+from app.api.extract import router as extract_router
 
 app = FastAPI(
-    title="PDF Heading Extractor API",
-    version="1.0.0"
+    title="PDF Extraction API",
+    version="1.0.0",
+    description="API for extracting headings and body text from PDF documents."
 )
 
-# Allow React frontend
+# Allow frontend to communicate with the backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],  # Change to your frontend URL in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
+# Register API routes
+app.include_router(extract_router)
 
 @app.get("/")
-def home():
+def root():
     return {
-        "status": "running"
+        "message": "PDF Extraction API is running."
     }
 
-
-@app.post("/upload")
-async def upload_pdf(file: UploadFile = File(...)):
-
-    file_path = os.path.join(UPLOAD_DIR, file.filename)
-
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-
-    data = extract_pdf(file_path)
-
-    return data
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy"
+    }
